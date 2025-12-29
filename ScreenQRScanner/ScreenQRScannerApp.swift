@@ -25,15 +25,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var resultWindowController: NSWindowController?
     var hotKeyManager: HotKeyManager?
     
+    // 新增：右键菜单
+    var contextMenu: NSMenu!
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // A. 创建菜单栏图标
+        // A. 初始化右键菜单
+        contextMenu = NSMenu()
+        contextMenu.addItem(NSMenuItem(title: "关于 ScreenQRScanner", action: nil, keyEquivalent: ""))
+        contextMenu.addItem(NSMenuItem.separator())
+        contextMenu.addItem(NSMenuItem(title: "退出 (Quit)", action: #selector(quitApp), keyEquivalent: "q"))
+        
+        // B. 创建菜单栏图标
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        
         if let button = statusBarItem.button {
             button.image = NSImage(systemSymbolName: "qrcode.viewfinder", accessibilityDescription: "Scan QR")
-            button.action = #selector(menuButtonTapped)
+            
+            // 关键点 1: 设置点击事件的处理函数
+            button.action = #selector(handleMouseClick)
+            
+            // 关键点 2: 告诉按钮，左键(.leftMouseUp) 和 右键(.rightMouseUp) 都要触发 action
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
         
-        // B. 注册全局快捷键 (Command + Shift + X)
+        // C. 注册全局快捷键 (Command + Shift + X)
         hotKeyManager = HotKeyManager(
             key: kVK_ANSI_X,
             modifiers: cmdKey | shiftKey,
@@ -43,8 +58,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
     }
     
-    @objc func menuButtonTapped() {
-        startScreenCapture()
+    // 统一处理鼠标点击
+    @objc func handleMouseClick() {
+        guard let event = NSApp.currentEvent else { return }
+        
+        if event.type == .rightMouseUp {
+            // ---如果是右键：显示菜单---
+            statusBarItem.menu = contextMenu   // 1. 临时挂载菜单
+            statusBarItem.button?.performClick(nil) // 2. 模拟点击以弹出系统原生菜单
+            statusBarItem.menu = nil           // 3. 立即卸载菜单（否则下次左键也会弹出菜单）
+        } else {
+            // ---如果是左键：执行扫描---
+            startScreenCapture()
+        }
+    }
+    
+    @objc func quitApp() {
+        NSApp.terminate(nil)
     }
     
     // --- 截图逻辑 ---
