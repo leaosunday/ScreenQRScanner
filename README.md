@@ -1,17 +1,23 @@
 # ScreenQRScanner
+<p>
+| <b>English</b> | <a href="./README_CN.md"><b>简体中文</b></a> |
+</p>
 
-Mac 屏幕二维码扫描小工具。无需掏手机，截图即可识别并复制内容。
+A lightweight QR code scanning tool for Mac. No need to grab your phone—simply take a screenshot to recognize and copy the QR code content.
 
-### 下载安装
-点击页面右侧的 [Releases](../../releases) 下载最新的 `.zip` 包，解压后拖入“应用程序”文件夹。
+### Usage example
+![sqrs.gif](./docs/sqrs.gif)
 
-### 打不开/提示已损坏？
-因为没有苹果开发者签名，首次运行**必须**按照以下步骤：
-1. 在“应用程序”文件夹里找到 App。
-2. **右键点击**图标 -> 选择 **“打开”**。
-3. 在弹窗中点击 **“打开”**。
+### Download & Installation
+Click [Releases](../../releases) on the right side of the page to download the latest .zip package. Unzip it and drag the app into your Applications folder.
 
-### 如何使用
-*   **快捷键**：`Cmd` + `Shift` + `X` 唤起扫描。
-*   **退出应用**：右键菜单栏图标退出。
-*   **关闭弹窗**：按 `ESC` 关闭弹窗。
+### Can't Open / "Damaged" Warning?
+Since the app doesn’t have an Apple Developer signature, you **must** follow these steps for the first launch:：
+1. Locate the app in your **Applications** folder.
+2. **Right-click** the app icon → Select **"Open"**.
+3. Click **"Open"** in the pop-up window.
+
+### How to Use
+*   **Keyboard Shortcut**：Press `Cmd` + `Shift` + `X` to launch the scanner.
+*   **Quit the App**：Right-click the app icon in the menu bar and select "Quit".
+*   **Close the Pop-up**：Press `ESC` to close the scanning pop-up.
